@@ -1,0 +1,50 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Apr 12, 2017, 10:24:15 PM
+    Author     : Sbr
+*/
+.form-error-message{
+    color: #f00;
+}
+
+.action-link{
+    font-size: 16px;
+    padding: 0px 1px 0px 1px;
+}
+.action-link .fa-eye{
+    color: #2dcc2d;
+}
+.action-link .fa-eye:hover{
+    color: #289628;
+}
+.action-link .fa-edit{
+    color:#337ab7
+}
+.action-link .fa-edit:hover{
+    color: #295377;
+}
+.action-link .fa-trash{
+    color: #ff5858;
+}
+.action-link .fa-trash:hover{
+    color: #d03030;
+}
+.pagination {
+    float: left;
+    display: inline-block;
+    padding-left: 0;
+    margin: 0;
+    border-radius: 4px;
+}
+#main .intro-header{
+    text-align: left
+}
+.navbar li button{
+    margin-top: 9px;
+    font-weight: bold
+}
+
