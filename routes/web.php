@@ -16,6 +16,9 @@ Route::group(['namespace' => 'FrontSite'], function () {
     Route::get('/', function () {
         return view('welcome');
     });
+    Route::post('/password/reset','PasswordResetController@index');
+    Route::get('/password/reset-external','PasswordResetController@resetExternal');
+    Route::post('/password/reset-external','PasswordResetController@resetExternal');
 
     
 
@@ -40,6 +43,6 @@ Route::group(['middleware' =>['web','auth'],'namespace' => 'FrontSite'], functio
     Route::get('/home2',function(){
         echo 'this is home2';
     });
-
+    Route::post('/set-time-zone','HomeController@setTimezone');
 });
 

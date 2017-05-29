@@ -43,17 +43,12 @@
                         </div>-->
                             <hr class="colorgraph">
                         <div class="form-group">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <button type="submit" class="btn btn-lg btn-success btn-block">
                                     <i class="fa fa-btn fa-sign-in"></i> Login
                                 </button>
                             </div>
-                            <div class="col-md-6">
-                                <a href="{{url('/register')}}" class="btn btn-lg btn-primary btn-block">
-                                    <i class="fa fa-btn fa-sign-in"></i> Register
-                                </a>
-                            </div>
-                            <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
+<!--                            <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>-->
                         </div>
                         </fieldset>
                     </form>

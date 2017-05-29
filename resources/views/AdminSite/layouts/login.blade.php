@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>CDU Learning Game</title>
 
         <link href="{!! asset('bootstrap/dist/css/bootstrap.min.css') !!}" rel="stylesheet" type="text/css" />
         
@@ -77,15 +77,7 @@
             <div class="intro-header">
                 @yield('content')
             </div>
-        <nav class="navbar navbar-default navbar-fixed-bottom topnav" role="navigation">
-                <footer>
-                        <div class="row">
-                            <div class="col-lg-12">
-
-                                <center><p class="copyright text-muted small">Copyright © CDU 2017.</p></center>
-                            </div>
-                        </div>
-                </footer>
+       
         </nav>
     </body>
 </html>

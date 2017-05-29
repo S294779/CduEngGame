@@ -6,11 +6,12 @@ $(function () {
         $.ajax({
             url: 'load-chat-message',
             type: 'post',
+            dataType:'json',
             success: function (response) {
                 $('.chat-content').html('');
                 var cnt = 0;
                 var rMsg = 0;
-
+                
                 $.each(response, function (key, val) {
                     if(val.seen_status == 'unseen'){
                         var fontweight = 700;
@@ -143,11 +144,11 @@ $(function () {
         });
     }
     $().loadMessage({
-        scrollButtom:true
-    });
+                scrollButtom:true
+            });
     $().postMessage();
     $().manageChatWindow();
-    setInterval(function () {
+    window.setInterval(function () {
         $().loadMessage({
             scrollButtom:false
         });

@@ -4,6 +4,9 @@ $(function () {
     $('.group-select2-seach').select2({
         placeholder: "Select Group"
     });
+    $('.common-q-select2-seach').select2({
+        placeholder: "Select Common Question"
+    });
     $('.days-seach').select2({
         placeholder: "Select Day"
     });

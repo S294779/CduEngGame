@@ -20,21 +20,14 @@
         <script type="text/javascript" src="{!! asset('js/app.js') !!}"></script>
     </head>
     <body>
-        @include('FrontSite.layouts.navbar')
+        @include('FrontSite.layouts.guestNavbar')
         
             <div class="intro-header">
                 @yield('content')
             </div>
-        <nav class="navbar navbar-default navbar-fixed-bottom topnav" role="navigation">
-                <footer>
-                        <div class="row">
-                            <div class="col-lg-12">
+        
+        @include('FrontSite.layouts.footer')
 
-                                <center><p class="copyright text-muted small">Copyright © CDU 2017.</p></center>
-                            </div>
-                        </div>
-                </footer>
-        </nav>
     </body>
     
 </html>

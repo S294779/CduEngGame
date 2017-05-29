@@ -14,8 +14,10 @@ class GroupProgressController extends Controller {
     public function index() {
         GroupProgressLib::calculate();
         $models = \App\Models\GroupProgress::query()->get();
+        $pending_extra_anses = \App\Models\ExtraAnswer::query()->where(['correct_review'=>'0'])->get();
         return view('AdminSite.group-progress.index', [
-            'models' => $models
+            'models' => $models,
+            'pending_extra_anses' => $pending_extra_anses,
         ]);
     }
 
@@ -27,7 +29,7 @@ class GroupProgressController extends Controller {
         $groupModel = Group::query()->where(['id' => $student->group_id])->first();
         $members = Student::query()->select(['name'])->where(['group_id' => $student->group_id])->get();
         $matrixDatas = \App\Models\MatrixTable::query()->where(['question_id' => $question->id])->get();
-        $totalTimeTakenByStudent = \App\Models\MatrixTableAns::totalTimeTakenByStudent();
+        $totalTimeTakenByStudent = \App\Models\MatrixTableAns::totalTimeTakenByStudent($student->group_id,$student->id);
 
         $matrixDatasAns = \App\Models\MatrixTableAns::query()->where(['student_id' => $student->id, 'question_id' => $question->id])->get();
 
@@ -55,6 +57,21 @@ class GroupProgressController extends Controller {
             'submit_extra_ans' => ($commonAnswer == null) ? 0 : 1,
             'extraAns'=>$extraAns
         ]);
+    }
+    public function setextraanscorrect(Request $request){
+        if($request->isMethod('post')){
+           $postedData = $request->all();
+           
+           if(isset($postedData['correct_review'])){
+              foreach($postedData['correct_review'] as $id => $value){
+                $extraAnsModel = \App\Models\ExtraAnswer::query()->where(['id'=>$id])->first();
+                $extraAnsModel->correct_review = $value;
+                $extraAnsModel->save();
+             } 
+           }
+           
+           return redirect('admin/group-progress');
+        }
     }
 
 }

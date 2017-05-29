@@ -65,7 +65,16 @@
         background-color:#1ce2ab
     }
 </style>
-<form action="{{($model->id)?url('/admin/question/update',$model->id): url('/admin/question/create') }}" method="post">
+<div class="row">
+    <div class="col-sm-12">
+        @if(isset($matrixAnsCount))
+            @if($matrixAnsCount > 0)
+            <p style="color:#f00">This question has already been played. Modification causes game reset</p>
+            @endif
+        @endif
+    </div>
+</div>
+<form id="main-question-form" action="{{($model->id)?url('/admin/question/update',$model->id): url('/admin/question/create') }}" method="post">
     {{ csrf_field() }}
     <div class="row">
         <div class="col-sm-12">
@@ -79,7 +88,7 @@
                 @endif
             </div>
         </div>
-        <div class="col-sm-10">
+        <div class="col-sm-5">
             <div class="form-group {{ $errors->has('groups') ? ' has-error' :($errors->any()?'has-success':'')}}">
                 <label class="control-label">Group</label>
                 <select name="groups[]" multiple="multiple"  class="form-control group-select2-seach">
@@ -97,6 +106,30 @@
                         <option value="{{$group->id}}" {{$gpSelected}}>{{$group->group_name}}</option>
                     @endforeach
                 </select>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="form-group {{ $errors->has('common_question_id') ? ' has-error' :($errors->any()?'has-success':'')}}">
+                <label class="control-label">Common Question</label>
+                <select name="common_question_id"  class="form-control common-q-select2-seach">
+                    <option value="">Select Common Question</option>
+                    @foreach($commonQuestions as $commonQuestion)
+                        @php
+                            $commonQselected = '';
+                        @endphp
+                        @php
+                            if($model->common_question_id == $commonQuestion->id){
+                                $commonQselected = 'selected';
+                            }
+                        @endphp
+                        <option value="{{$commonQuestion->id}}" {{$commonQselected}}>{{$commonQuestion->question}}</option>
+                    @endforeach
+                </select>
+                @if ($errors->has('common_question_id'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('common_question_id') }}</strong>
+                </span>
+                @endif
             </div>
         </div>
         <div class="col-sm-1">
@@ -153,6 +186,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="form-group">
+        <a id="auto-fillup-btn" href="#" class="btn btn-success" >Auto Fill Up</a>
     </div>
     <div class="form-group" style="overflow-x: scroll">
         <table id="options-matrix" class="table table-bordered" style="table-layout: fixed;margin-bottom: 0px">

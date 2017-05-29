@@ -73,6 +73,11 @@ Route::group(['prefix' =>'admin','namespace' => 'AdminSite'], function () {
     
     Route::get('/common-question/view/{id}','CommonQuestionController@view');
     Route::post('/common-question/delete/{id}','CommonQuestionController@delete');
+    Route::get('/group-progress','GroupProgressController@index');
+    
+    Route::get('/progress-detail/{id}','GroupProgressController@progressdetail');
+    Route::post('/extra-ans-correct','GroupProgressController@setextraanscorrect');
+    
     
 
 });

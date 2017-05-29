@@ -16,7 +16,7 @@ class LoginController extends Controller
 
             public function __construct(){
                 
-                $this->middleware('admin', ['except' => 'logout']);
+                //$this->middleware('admin', ['except' => 'login']);
             }
 
             public function resetPassword()
@@ -27,9 +27,9 @@ class LoginController extends Controller
             {
                 $this->guard('admin')->logout();
 
-                $request->session('admin')->flush();
-
-                $request->session('admin')->regenerate();
+//                $request->session('admin')->flush();
+//
+//                $request->session('admin')->regenerate();
 
                 return redirect('/admin/login');
             }

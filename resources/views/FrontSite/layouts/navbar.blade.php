@@ -1,3 +1,9 @@
+<style>
+    .navbar-header li{
+        list-style: none;
+        padding: 13px;
+    }
+</style>
 <nav class="navbar navbar-default navbar-fixed-top topnav">
   <div class="container topnav">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -8,7 +14,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand topnav" href="{{ url('/') }}">CDU Learning Game</a>
+      <li class="pull-left" style="padding: 0;"><a class="navbar-brand topnav" href="{{ url('/') }}">CDU Learning Game</a></li>
+      @php 
+        if(isset($totalTimeTakenByStudent)){
+      @endphp
+        @if($totalTimeTakenByStudent != '0:0:0.0')
+        <li class="pull-left"><span>Already Ellapsed Time:</span><span> {{$totalTimeTakenByStudent}}</span></li>
+        <li class="pull-left">+</li>
+        @endif
+      @php
+      }
+      @endphp
+      <li class="pull-left" id="game-played-time"></li>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -16,7 +33,7 @@
      <ul class="nav navbar-nav navbar-right">
         @if (Route::has('login'))
                     @if (Auth::check())
-                    <li><a href="#" id="game-played-time"></a></li>
+                    
                         <li><a href="">{{Auth::guard()->user()->name}}</a></li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Setting</a>
@@ -24,7 +41,7 @@
                                 <li>
                                     <div class="form-group" style="padding: 10px">
                                         <label class="control-label">Volume</label>
-                                        <!--pending here for volume store in local storage-->
+                                       . <!--pending here for volume store in local storage-->
                                         <input id="valume-change" type="range" >
                                         <script>
                                             var elmt = document.getElementById('valume-change');

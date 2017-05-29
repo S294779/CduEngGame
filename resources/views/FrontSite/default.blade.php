@@ -30,10 +30,24 @@
             
         </div>
     </div>
-    
-
-    <!-- /home -->
-
-
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js'></script>
+    <script>
+      $(document).ready(function(e){
+          var timeZone = jstz.determine().name();
+          var oldtimeZne = '{{Auth::user()->timezone}}';
+          if(oldtimeZne != timeZone){
+              $.ajax({
+                url:'set-time-zone',
+                type:'post',
+                data:{
+                    timezone:timeZone
+                },
+                success:function(response){
+                    location.reload();
+                }
+            });
+          }
+      })
+    </script>
 </div>
 @endsection

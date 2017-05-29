@@ -11,6 +11,7 @@
         <link href="{!! asset('font-awesome-4.7.0/css/font-awesome.min.css') !!}" rel="stylesheet" type="text/css" />
         <link href="{!! asset('css/select2.min.css') !!}" rel="stylesheet" type="text/css" />
         <link href="{!! asset('css/jquery.contextMenu.min.css') !!}" rel="stylesheet" type="text/css" />
+        <link href="{!! asset('css/checkbox.css') !!}" rel="stylesheet" type="text/css" />
         <link href="{!! asset('css/adminStyle.css') !!}" rel="stylesheet" type="text/css" />
 
         <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">

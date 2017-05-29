@@ -1,7 +1,7 @@
 $(function () {
     var odd_even = 1;
     var uniquePair = '';
-
+    var autoFill = 0;
     $.fn.addOption = function (options) {
         var numOfPair = $('#options-container tr').length;
 
@@ -69,6 +69,7 @@ $(function () {
             $(this).addClass('active');
         });
     }
+
     $.fn.pasteOptions = function (options) {
 
         $('#options-matrix tr td').unbind().on('click', function (e) {
@@ -77,13 +78,14 @@ $(function () {
                 alert('Please select the question above.');
             } else {
 
-                if ($(this).hasClass('col-filled')) {
+                if ($(this).hasClass('col-filled') && autoFill == 0) {
                     alert("You can't overwrite item.");
 
                 } else {
                     if (odd_even == 1) {
                         odd_even = 2;
                         uniquePair = $.now();
+                        setTimeout(function(e){},200);
                     } else {
                         odd_even = 1;
                     }
@@ -119,6 +121,7 @@ $(function () {
                     }
                 });
             }
+             $().pairHover();
 
         });
     }
@@ -192,9 +195,7 @@ $(function () {
                 });
 
     }
-    $("#options-matrix").mousemove(function (event) {
-        $().pairHover();
-    });
+    
     $().setAnsMatirxSize();
     $().pasteOptions();
     $().selectOptions();
@@ -229,6 +230,87 @@ $(function () {
             delete: {name: "Delete", icon: "delete"},
         }
     });
+    $.fn.generateRandomNumber = function (options) {
+
+        return Math.floor(Math.random() * (options.max - options.min + 1) + options.min);
+    }
+    $.fn.autoFillUp = function (options) {
+
+        $('#auto-fillup-btn').on('click', function (e) {
+            e.preventDefault();
+            var oldRes = $('#options-container tr').length;
+            if (oldRes) {
+                autoFill = 1;
+                var xPosition = $('#ans-matrix-size-x').val();
+                var yPosition = $('#ans-matrix-size-y').val();
+                var xPositionArr = [];
+                var yPositionArr = [];
+                var totalMatrixPosition = [];
+                for (var i = 1; i <= xPosition; i++) {
+                    xPositionArr.push(i);
+
+                }
+                xPositionArr = shuffle(xPositionArr);
+                for (var i = 1; i <= yPosition; i++) {
+                    yPositionArr.push(i);
+
+                }
+                yPositionArr = shuffle(yPositionArr);
+                var matrixPositions = [];
+                $.each(xPositionArr, function (xkey, xval) {
+                    $.each(yPositionArr, function (ykey, yval) {
+                        matrixPositions.push([xval, yval]);
+
+                    });
+                });
+
+                matrixPositions = shuffle(matrixPositions);
+                var countMtrix = 1;
+                var rows = $('#options-container tr').length;
+                var oprCnt = 1;
+                $.each(matrixPositions, function (mKey, mPosition) {
+
+
+                    if (countMtrix % 2 != 0) {
+                        $('#options-container tr:nth-child(' + oprCnt + ') td:nth-child(1)').click();
+                        oprCnt++;
+                        if (oprCnt > rows) {
+
+                            oprCnt = 1;
+                        }
+
+                    } else {
+
+                    }
+                    $('#options-matrix tr:nth-child(' + mPosition[1] + ') td:nth-child(' + mPosition[0] + ')').click();
+                    countMtrix++;
+                });
+                autoFill = 0;
+            } else {
+                alert('There is no option available?');
+            }
+
+        });
+    }
+    function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    }
+    $().autoFillUp();
     $('#question-submit-btn').on('click', function (e) {
 
         //collecting options
@@ -246,5 +328,14 @@ $(function () {
         $('#question-matrix-field').val(matrixDatas);
 
     });
+    $('#main-question-form').submit(function(e){
+        var no_options = $('#options-container tr').length;
+        if(no_options >= 2){
+            
+        }else{
+            alert('Minimum 2 option pair is required');
+            return false;
+        }
+    })
 });
 

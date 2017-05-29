@@ -16,6 +16,9 @@
         <a href="{{url('/admin/setting/form')}}"><i class="fa fa-cogs"></i><span> Setting</span></a>
     </li>
     <li class="treeview">
+        <a href="{{url('/admin/group-progress')}}"><i class="fa fa-bars"></i><span> Group Progress</span></a>
+    </li>
+    <li class="treeview">
         <a href="#"><i class="fa fa-users"></i><span>Group</span><i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu" style="display: none;">
             <li class="treeview">

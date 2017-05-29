@@ -1,9 +1,9 @@
-@extends('FrontSite.layouts.app')
+@extends('FrontSite.layouts.main')
 
 <!-- Main Content -->
 @section('content')
 <div class="container">
-    <div class="row">
+    <div class="row" style="margin-top: 40px">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Reset Password</div>
@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/email') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">

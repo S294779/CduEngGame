@@ -8,7 +8,7 @@ class Group extends Model{
     protected $table = 'group';
     
     protected $filliable = [
-        'group_name','group_description','created_at', 'updated_at'
+        'group_name','group_description','created_at', 'updated_at','release_group'
     ];
     
     public function getRules(){
@@ -20,4 +20,9 @@ class Group extends Model{
     public function student(){
         return $this->hasMany('App\Models\Student');
     }
+    
+    public function answers(){
+        return $this->hasMany('App\Models\Student');
+    }
+    
 }

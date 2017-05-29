@@ -40,7 +40,14 @@ class CommonQuestionController extends Controller {
         if ($request->isMethod('post') && !$this->validate($request, $model->getRules())) {
             $postedData = $request->all();
             $model->question = $postedData['question'];
-            if($postedData['is_asked']){
+            $subPart = [];
+            $cnt = 1;
+            foreach($postedData['subpart'] as $part){
+                $subPart[$cnt] = $part;
+                $cnt++;
+            }
+            $model->subpart = json_encode($subPart);
+            if(isset($postedData['is_asked'])){
                 $model->is_asked = 1;
             }else{
                 $model->is_asked = 0;
@@ -49,7 +56,8 @@ class CommonQuestionController extends Controller {
             
             return redirect('/admin/common-question/view/' . $model->id);
         }
-
+        $model->subpart =  json_decode($model->subpart,true);
+        
         return view('AdminSite.common-question.form', [
             'model' => $model
         ]);
@@ -61,6 +69,13 @@ class CommonQuestionController extends Controller {
         if ($request->isMethod('post') && !$this->validate($request, $model->getRules())) {
             $postedData = $request->all();
             $model->question = $postedData['question'];
+            $subPart = [];
+            $cnt = 1;
+            foreach($postedData['subpart'] as $part){
+                $subPart[$cnt] = $part;
+                $cnt++;
+            }
+            $model->subpart = json_encode($subPart);
             if(isset($postedData['is_asked'])){
                 $model->is_asked = 1;
             }else{
@@ -70,6 +85,8 @@ class CommonQuestionController extends Controller {
             
             return redirect('/admin/common-question/view/' . $model->id);
         }
+        $model->subpart = json_decode($model->subpart,true);
+        
         return view('AdminSite.common-question.form', [
             'model' => $model
         ]);

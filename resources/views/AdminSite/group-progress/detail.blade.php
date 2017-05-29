@@ -41,12 +41,28 @@
 </style>
 <div class="row">
         <div class="col-sm-12">
-                <p>Question: {{$question->question}}</p>
+            <p><b>Question: {{$question->question}}</b></p>
         </div>
         <div class="col-sm-12">
                 @if($extraAns)
-                         <p>Extra Question (submitted): {{$extraAns->question_text}}</p>
-                         <p>Extra Answer (submitted): {{$extraAns->answer_text}}</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Extra Question (Asked)</th>
+                            <th>Extra Question (submitted)</th>
+                            <th>Extra Answer (submitted)</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{$question->commonquestion->question}}</td>
+                            <td>{{$extraAns->question_text}}</td>
+                            <td>{{$extraAns->answer_text}}</td>
+                            <td>{{($extraAns->correct_review == 1)?'Correct':'Not Correct'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
                 @else
                 <p>Extra Answer: <span class="not-set">No Answer</span></p>
                 @endif

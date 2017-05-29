@@ -48,6 +48,9 @@
         padding: 20%; 
     }
 </style>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.ui.min.js"></script>
+<script type="text/javascript" src="{!! asset('js/modal.animate.js') !!}"></script>
 <script type="text/javascript" src="{!! asset('js/answer.js') !!}"></script>
 <div class="container">
 
@@ -73,7 +76,7 @@
 
                     foreach($matrixDatas as $matrixData){
                     if($matrixData['xposition'] == $j && $matrixData['yposition'] == $i){
-                    $content = '<div class="content" data-q="'.$question->id.'" data-key="['.$matrixData['first_pair'].']['.$matrixData['second_pair'].']" data-yposition="'.$matrixData['yposition'].'" data-xposition="'.$matrixData['xposition'].'" data-label="'.$matrixData['label'].'" >'.$matrixData['label'].'</div>';
+                    $content = '<div class="content" data-q="'.$question->id.'" data-key="['.$matrixData['first_pair'].']['.$matrixData['second_pair'].']" data-yposition="'.$matrixData['yposition'].'" data-xposition="'.$matrixData['xposition'].'" data-label="'.$matrixData['label'].'" data-hint="'.$matrixData['hint'].'">'.$matrixData['label'].'</div>';
                     $matrixClass = 'not-col-matched';
                     foreach($matrixDatasAns as $matrixDatasAn){
                     if($matrixData->xposition == $matrixDatasAn->xposition && $matrixData->yposition == $matrixDatasAn->yposition && $matrixData->label == $matrixDatasAn->label ){
@@ -96,30 +99,55 @@
             </div>
         </div>
     </div>
+    <button type="button" id="extra-ans-modal-btn" class="btn btn-primary pull-right" data-toggle="modal" data-target="#firstQuestion" style="display: none">Final Question</button>
+    
 </div>
-<div id="firstQuestion" class="modal" role="dialog" data-backdrop="static" data-keyboard="false">
+<div id="firstQuestion" class="modal" data-easein="bounceIn" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
-                <h4 class="modal-title">Extra Question</h4>
+                <h4 class="modal-title">Final Question</h4>
             </div>
             <div class="modal-body">
                 <form id="extra-question-form" action="{{url('set-extra-ans')}}" method="post">
                     {{csrf_field()}}
-                    <input type="hidden" name="question_id" id="extra-question-id" value="">
+                    <input type="hidden" name="common_question_id" id="extra-question-id" value="">
+                    <input type="hidden" name="question_id" value="{{$question->id}}">
                     <div class="form-group">
-                        <label class="control-label" id="popup-question"></label>
-                        <input type="text" name="answer" class="form-control">
+                        <label class="control-label" id="popup-question">What may be the question of hints those are shown your team?</label>
+                        <input type="text" name="question" class="form-control" placeholder="question here">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="answer" class="form-control" placeholder="answer here">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <input type="submit" form="extra-question-form" class="btn btn-success" value="Save">
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
             </div>
         </div>
     </div>
 </div>
+
+<div id="hint-box-modal" class="modal" data-easein="bounceIn" data-easeout="bounceIn"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Question Hint</h4>
+            </div>
+            <div class="modal-body">
+                <p id="question-hint-container"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @php
 $gpMembers = '';
 foreach($members as $member){
@@ -172,12 +200,12 @@ var chatBox = document.getElementById('chat-main-box');
         var labels = document.getElementsByClassName('chat-group-name');
         for (var i = 0; i < labels.length; i ++) {
 labels[i].style.display = 'none';
-}
+        }
 
 var chatNotification = document.getElementsByClassName('chat-new-notification');
         for (var i = 0; i < chatNotification.length; i ++) {
 chatNotification[i].style.display = 'inline-block';
-}
+        }
 
 } else{
 
@@ -186,33 +214,69 @@ var chatBoxBtn = document.getElementById('chat-display-btn');
         var labels = document.getElementsByClassName('chat-group-name');
         for (var i = 0; i < labels.length; i ++) {
 labels[i].style.display = 'inline-block';
-}
+        }
 
 var chatNotification = document.getElementsByClassName('chat-new-notification');
         for (var i = 0; i < chatNotification.length; i ++) {
 chatNotification[i].style.display = 'none';
+        }
 }
-}
-$("[data-toggle=popover]").popover();    </script>
+$("[data-toggle=popover]").popover();</script>
 </div>
 @php
 $matched = $matched/2;
 @endphp
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js'></script>
+<script type="text/javascript" src="{!! asset('js/chat.js') !!}"></script>
 <script>
-            $(document).ready(function () {
-    $().loadSound();
-            var runObj = $('#game-played-time').runner({
-    startAt: 0,
-            });
-            $().answerFunction({
-    matchedCount: {{$matched}},
-            numberOfQuestion: {{count($extraQuestions)}},
-            questions:{!!json_encode($extraQuestions)!!},
-            runObj:runObj
-            });
-            $().beforeSubmit({
-    runObj:runObj
-            });
+        $(document).ready(function () {
+                var timeZone = jstz.determine().name();
+                var oldtimeZne = '{{Auth::user()->timezone}}';
+                if (oldtimeZne != timeZone){
+                        $.ajax({
+                                url:'set-time-zone',
+                                type:'post',
+                                data:{
+                                timezone:timeZone
+                                },
+                                success:function(response){
+                                location.reload();
+                                }
+                        });
+                }
+                $().loadSound();
+                    var runObj = $('#game-played-time').runner({
+                    startAt: 0,
+                });
+                $().answerFunction({
+                        matchedCount: {{$matched}},
+                        questions:{!!json_encode($commonQuestion)!!},
+                        runObj:runObj
+                });
+                $().beforeSubmit({
+                        runObj:runObj
+                });
+        });
+</script>
+@if($submit_extra_ans == 0)
+<script>
+        $(document).ready(function () {
+            if($('#answer-matrix .not-col-matched').length == 0){
+                window.setTimeout(function(){
+                    $('#extra-question-id').val({!!$commonQuestion['id']!!});
+                    $('#firstQuestion').modal('show');
+                },1000)
+                $('#extra-ans-modal-btn').show();
+            }
+        });
+</script>
+@else
+<script>
+    $(document).ready(function () {
+        $('#game-over-text-overlay').show();
+        
     });
 </script>
+@endif
 @endsection

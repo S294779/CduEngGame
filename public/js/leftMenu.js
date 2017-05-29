@@ -24,6 +24,9 @@ $(function () {
     });
     
     $('.treeview>a').click(function (e) {
+        if($(this).attr('href') == '#'){
+            e.preventDefault();
+        }
         if ($(this).parent('.treeview').children('.treeview-menu').length > 0) {
                 //$(this).closest('.treeview-menu').find('.treeview').slideUp();
             if ($(this).parent('.treeview').children('.treeview-menu').css('display') == 'none') {
@@ -36,5 +39,6 @@ $(function () {
                 $(this).find('.pull-right').addClass('fa-angle-left');
             }
         }
+        
     });
 })

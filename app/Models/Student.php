@@ -24,7 +24,6 @@ class Student extends Model{
         return [
                     'name'=>'required|string|max:255',
                     'email'=>'required|email|max:255',
-                    'password'=>'required',
                     'group_id'=>'required|integer',
         ];
     }
@@ -40,7 +39,7 @@ class Student extends Model{
                 $tightGroupIds[] = $studentModel['group_id'];
             }
         }
-        return Group::query()->whereNotIn('id',$tightGroupIds)->get();
+        return Group::query()->where(['release_group'=>1,'release_group'=>1])->whereNotIn('id',$tightGroupIds)->get();
         
     }
     

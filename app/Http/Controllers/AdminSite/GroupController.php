@@ -41,6 +41,11 @@ class GroupController extends Controller{
             $postedData = $request->all();
             $model->group_name = $postedData['group_name'];
             $model->group_description = $postedData['group_description'];
+            if(isset($postedData['release_group'])){
+                $model->release_group = 1;
+            }else{
+                $model->release_group = 0;
+            }
             $model->save();
             return redirect('/admin/group/view/'.$model->id);
         }
@@ -57,6 +62,11 @@ class GroupController extends Controller{
             $postedData = $request->all();
             $model->group_name = $postedData['group_name'];
             $model->group_description = $postedData['group_description'];
+            if(isset($postedData['release_group'])){
+                $model->release_group = 1;
+            }else{
+                $model->release_group = 0;
+            }
             $model->save();
             return redirect('/admin/group/view/'.$model->id);
         }
@@ -68,6 +78,18 @@ class GroupController extends Controller{
     public function delete(Request $request,$id){
         if($request->isMethod('post')){
             $model = Group::query()->where(['id'=>$id])->first();
+            $groupProgress = \App\Models\GroupProgress::query()->where(['group_id'=>$id])->get();
+            foreach($groupProgress as $groupProgress2){
+                $groupProgress2->delete();
+            }
+            $groupAns = \App\Models\MatrixTableAns::query()->where(['group_id'=>$id])->get();
+            foreach($groupAns as $groupAns2){
+                $groupAns2->delete();
+            }
+            $groupQues = \App\Models\GroupQuestion::query()->where(['group_id'=>$id])->get();
+            foreach($groupQues as $groupQues2){
+                $groupQues2->delete();
+            }
             $model->delete();
             return redirect('/admin/group/index');
         }

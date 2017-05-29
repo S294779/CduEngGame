@@ -14,6 +14,7 @@
             <th>#</th>
             <th>Group Name</th>
             <th>Group Description</th>
+            <th>Is Release</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -25,6 +26,7 @@
         <td>{{$count}}</td>
         <td>{{ $model->group_name }}</td>
         <td>{{ $model->group_description }}</td>
+        <td>{!! ($model->release_group==1)?'<i class="fa fa-check text-success"></i>':'<i class="fa fa-remove text-danger"></i>' !!}</td>
         <td>
             <a class="action-link" href="{{url('/admin/group/view',$model->id)}}"><i class="fa fa-eye"></i></a>
             <a class="action-link" href="{{url('/admin/group/update',$model->id)}}"><i class="fa fa-edit"></i></a>
